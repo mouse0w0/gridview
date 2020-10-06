@@ -1,8 +1,22 @@
 .grid-view {
+    -fx-background-color: -fx-box-border, -fx-control-inner-background;
+    -fx-background-insets: 0, 1;
+    -fx-padding: 1;
+
     -fx-vertical-cell-spacing: 12;
     -fx-horizontal-cell-spacing: 12;
     -fx-cell-height: 64px;
     -fx-cell-width: 64px;
+}
+
+.grid-view:focused {
+    -fx-background-color: -fx-faint-focus-color, -fx-focus-color, -fx-control-inner-background;
+    -fx-background-insets: -1.4, -0.3, 1;
+    -fx-background-radius: 2, 0, 0;
+}
+
+.list-view:disabled {
+    -fx-opacity: 0.4;
 }
 
 .grid-cell:filled:selected {
