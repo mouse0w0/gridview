@@ -149,6 +149,13 @@ public class GridCell<T> extends IndexedCell<T> {
     private final InvalidationListener focusModelListener = observable -> updateFocus();
     private final WeakInvalidationListener weakFocusModelListener = new WeakInvalidationListener(focusModelListener);
 
+    @Override
+    public void updateIndex(int i) {
+        super.updateIndex(i);
+        updateSelection();
+        updateFocus();
+    }
+
     private void updateSelection() {
         GridView<T> gridView = getGridView();
         if (gridView == null) return;
