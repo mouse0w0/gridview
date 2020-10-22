@@ -245,6 +245,10 @@ public class GridView<T> extends Control {
         return verticalCellSpacing == null ? 12.0 : verticalCellSpacing.get();
     }
 
+    public final void setCellSpacing(double horizontal, double vertical) {
+        setHorizontalCellSpacing(horizontal);
+        setVerticalCellSpacing(vertical);
+    }
 
     // --- cell width
 
@@ -333,6 +337,10 @@ public class GridView<T> extends Control {
         return cellHeight == null ? 64.0 : cellHeight.get();
     }
 
+    public final void setCellSize(double width, double height) {
+        setCellWidth(width);
+        setCellHeight(height);
+    }
 
     // I've removed this functionality until there is a clear need for it.
     // To re-enable it, there is code in GridRowSkin that has been commented
