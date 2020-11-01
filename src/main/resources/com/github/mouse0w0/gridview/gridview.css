@@ -20,5 +20,5 @@
 
 .grid-cell:focused {
     -fx-background-color: -fx-background;
-    -fx-background-insets: 0, 1, 2;
+    -fx-background-insets: 0;
 }
