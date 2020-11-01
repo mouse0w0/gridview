@@ -120,6 +120,7 @@ public class GridView<T> extends Control {
      */
     public GridView(ObservableList<T> items) {
         getStyleClass().add(DEFAULT_STYLE_CLASS);
+        setFocusTraversable(true);
         setItems(items);
     }
 
@@ -157,7 +158,7 @@ public class GridView<T> extends Control {
      */
     public final DoubleProperty horizontalCellSpacingProperty() {
         if (horizontalCellSpacing == null) {
-            horizontalCellSpacing = new StyleableDoubleProperty(12) {
+            horizontalCellSpacing = new StyleableDoubleProperty() {
                 @Override
                 public CssMetaData<GridView<?>, Number> getCssMetaData() {
                     return GridView.StyleableProperties.HORIZONTAL_CELL_SPACING;
@@ -194,7 +195,7 @@ public class GridView<T> extends Control {
      * the same row.
      */
     public final double getHorizontalCellSpacing() {
-        return horizontalCellSpacing == null ? 12.0 : horizontalCellSpacing.get();
+        return horizontalCellSpacing == null ? 0 : horizontalCellSpacing.get();
     }
 
 
@@ -207,7 +208,7 @@ public class GridView<T> extends Control {
 
     public final DoubleProperty verticalCellSpacingProperty() {
         if (verticalCellSpacing == null) {
-            verticalCellSpacing = new StyleableDoubleProperty(12) {
+            verticalCellSpacing = new StyleableDoubleProperty() {
                 @Override
                 public CssMetaData<GridView<?>, Number> getCssMetaData() {
                     return GridView.StyleableProperties.VERTICAL_CELL_SPACING;
@@ -242,7 +243,7 @@ public class GridView<T> extends Control {
      * the same column.
      */
     public final double getVerticalCellSpacing() {
-        return verticalCellSpacing == null ? 12.0 : verticalCellSpacing.get();
+        return verticalCellSpacing == null ? 0 : verticalCellSpacing.get();
     }
 
     public final void setCellSpacing(double horizontal, double vertical) {
@@ -466,7 +467,7 @@ public class GridView<T> extends Control {
      */
     private static class StyleableProperties {
         private static final CssMetaData<GridView<?>, Number> HORIZONTAL_CELL_SPACING =
-                new CssMetaData<GridView<?>, Number>("-fx-horizontal-cell-spacing", StyleConverter.getSizeConverter(), 12d) { //$NON-NLS-1$
+                new CssMetaData<GridView<?>, Number>("-fx-horizontal-cell-spacing", StyleConverter.getSizeConverter()) { //$NON-NLS-1$
 
                     @Override
                     public Double getInitialValue(GridView<?> node) {
@@ -486,7 +487,7 @@ public class GridView<T> extends Control {
                 };
 
         private static final CssMetaData<GridView<?>, Number> VERTICAL_CELL_SPACING =
-                new CssMetaData<GridView<?>, Number>("-fx-vertical-cell-spacing", StyleConverter.getSizeConverter(), 12d) { //$NON-NLS-1$
+                new CssMetaData<GridView<?>, Number>("-fx-vertical-cell-spacing", StyleConverter.getSizeConverter()) { //$NON-NLS-1$
 
                     @Override
                     public Double getInitialValue(GridView<?> node) {
@@ -506,7 +507,7 @@ public class GridView<T> extends Control {
                 };
 
         private static final CssMetaData<GridView<?>, Number> CELL_WIDTH =
-                new CssMetaData<GridView<?>, Number>("-fx-cell-width", StyleConverter.getSizeConverter(), 64d) { //$NON-NLS-1$
+                new CssMetaData<GridView<?>, Number>("-fx-cell-width", StyleConverter.getSizeConverter()) { //$NON-NLS-1$
 
                     @Override
                     public Double getInitialValue(GridView<?> node) {
@@ -526,7 +527,7 @@ public class GridView<T> extends Control {
                 };
 
         private static final CssMetaData<GridView<?>, Number> CELL_HEIGHT =
-                new CssMetaData<GridView<?>, Number>("-fx-cell-height", StyleConverter.getSizeConverter(), 64d) { //$NON-NLS-1$
+                new CssMetaData<GridView<?>, Number>("-fx-cell-height", StyleConverter.getSizeConverter()) { //$NON-NLS-1$
 
                     @Override
                     public Double getInitialValue(GridView<?> node) {

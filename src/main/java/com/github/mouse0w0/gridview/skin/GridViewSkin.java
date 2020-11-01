@@ -27,16 +27,17 @@
 package com.github.mouse0w0.gridview.skin;
 
 import com.github.mouse0w0.gridview.GridView;
+import com.github.mouse0w0.gridview.skin.behavior.GridViewBehavior;
 import com.sun.javafx.scene.control.behavior.BehaviorBase;
-import com.sun.javafx.scene.control.behavior.KeyBinding;
 import com.sun.javafx.scene.control.skin.VirtualContainerBase;
 import com.sun.javafx.scene.control.skin.VirtualFlow;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.WeakListChangeListener;
+import javafx.event.EventHandler;
+import javafx.scene.Node;
+import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
-
-import java.util.Collections;
 
 public class GridViewSkin<T> extends VirtualContainerBase<GridView<T>, BehaviorBase<GridView<T>>, GridRow<T>> {
 
@@ -52,14 +53,14 @@ public class GridViewSkin<T> extends VirtualContainerBase<GridView<T>, BehaviorB
 
     @SuppressWarnings("rawtypes")
     public GridViewSkin(GridView<T> control) {
-        super(control, new BehaviorBase<>(control, Collections.<KeyBinding>emptyList()));
+        super(control, new GridViewBehavior<>(control));
 
         updateGridViewItems();
 
         flow.setId("virtual-flow"); //$NON-NLS-1$
         flow.setPannable(false);
         flow.setVertical(true);
-        flow.setFocusTraversable(getSkinnable().isFocusTraversable());
+        flow.setFocusTraversable(control.isFocusTraversable());
         flow.setCreateCell(new Callback<VirtualFlow, GridRow<T>>() {
             @Override
             public GridRow<T> call(VirtualFlow flow) {
@@ -67,6 +68,15 @@ public class GridViewSkin<T> extends VirtualContainerBase<GridView<T>, BehaviorB
             }
         });
         getChildren().add(flow);
+
+        EventHandler<MouseEvent> mousePressHandler = event -> {
+            if (control.isFocusTraversable()) {
+                control.requestFocus();
+            }
+        };
+        for (Node scrollBar : flow.lookupAll(".scroll-bar")) {
+            scrollBar.addEventFilter(MouseEvent.MOUSE_PRESSED, mousePressHandler);
+        }
 
         updateRowCount();
 
@@ -157,8 +167,9 @@ public class GridViewSkin<T> extends VirtualContainerBase<GridView<T>, BehaviorB
     }
 
     /**
-     *  Returns the number of row needed to display the whole set of cells
-     *  @return GridView row count
+     * Returns the number of row needed to display the whole set of cells
+     *
+     * @return GridView row count
      */
     @Override
     public int getItemCount() {
@@ -170,17 +181,19 @@ public class GridViewSkin<T> extends VirtualContainerBase<GridView<T>, BehaviorB
     }
 
     /**
-     *  Returns the max number of cell per row
-     *  @return Max cell number per row 
+     * Returns the max number of cell per row
+     *
+     * @return Max cell number per row
      */
     public int computeMaxCellsInRow() {
         return Math.max((int) Math.floor(computeRowWidth() / computeCellWidth()), 1);
     }
 
     /**
-     *  Returns the width of a row
-     *  (should be GridView.width - GridView.Scrollbar.width)
-     *  @return Computed width of a row 
+     * Returns the width of a row
+     * (should be GridView.width - GridView.Scrollbar.width)
+     *
+     * @return Computed width of a row
      */
     protected double computeRowWidth() {
         // Fix for #98 : width calculation should take the scrollbar size
@@ -192,8 +205,9 @@ public class GridViewSkin<T> extends VirtualContainerBase<GridView<T>, BehaviorB
     }
 
     /**
-     *  Returns the width of a cell
-     *  @return Computed width of a cell 
+     * Returns the width of a cell
+     *
+     * @return Computed width of a cell
      */
     protected double computeCellWidth() {
         return getSkinnable().cellWidthProperty().doubleValue() + (getSkinnable().horizontalCellSpacingProperty().doubleValue() * 2);
