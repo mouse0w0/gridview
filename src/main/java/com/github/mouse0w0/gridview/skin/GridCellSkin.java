@@ -28,16 +28,20 @@ package com.github.mouse0w0.gridview.skin;
 
 import com.github.mouse0w0.gridview.cell.GridCell;
 import com.github.mouse0w0.gridview.skin.behavior.GridCellBehavior;
-import com.sun.javafx.scene.control.behavior.BehaviorBase;
-import com.sun.javafx.scene.control.behavior.KeyBinding;
-import com.sun.javafx.scene.control.skin.CellSkinBase;
+import javafx.scene.control.skin.CellSkinBase;
 
-import java.util.Collections;
-
-public class GridCellSkin<T> extends CellSkinBase<GridCell<T>, BehaviorBase<GridCell<T>>> {
+public class GridCellSkin<T> extends CellSkinBase<GridCell<T>> {
+    private final GridCellBehavior<T> behavior;
 
     public GridCellSkin(GridCell<T> control) {
-        super(control, new GridCellBehavior<>(control, Collections.<KeyBinding>emptyList()));
+        super(control);
+
+        behavior = new GridCellBehavior<>(control);
     }
 
+    @Override
+    public void dispose() {
+        behavior.dispose();
+        super.dispose();
+    }
 }

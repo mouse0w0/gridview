@@ -28,38 +28,22 @@ package com.github.mouse0w0.gridview.skin;
 
 import com.github.mouse0w0.gridview.GridView;
 import com.github.mouse0w0.gridview.cell.GridCell;
-import com.sun.javafx.scene.control.behavior.BehaviorBase;
-import com.sun.javafx.scene.control.behavior.KeyBinding;
-import com.sun.javafx.scene.control.skin.CellSkinBase;
 import javafx.scene.Node;
+import javafx.scene.control.skin.CellSkinBase;
 
-import java.util.Collections;
-
-public class GridRowSkin<T> extends CellSkinBase<GridRow<T>, BehaviorBase<GridRow<T>>> {
+public class GridRowSkin<T> extends CellSkinBase<GridRow<T>> {
 
     public GridRowSkin(GridRow<T> control) {
-        super(control, new BehaviorBase<>(control, Collections.<KeyBinding>emptyList()));
+        super(control);
 
         // Remove any children before creating cells (by default a LabeledText exist and we don't need it)
         getChildren().clear();
         updateCells();
 
-        registerChangeListener(getSkinnable().indexProperty(), "INDEX"); //$NON-NLS-1$
-        registerChangeListener(getSkinnable().widthProperty(), "WIDTH"); //$NON-NLS-1$
-        registerChangeListener(getSkinnable().heightProperty(), "HEIGHT"); //$NON-NLS-1$
-    }
-
-    @Override
-    protected void handleControlPropertyChanged(String p) {
-        super.handleControlPropertyChanged(p);
-
-        if ("INDEX".equals(p)) { //$NON-NLS-1$
-            updateCells();
-        } else if ("WIDTH".equals(p)) { //$NON-NLS-1$
-            updateCells();
-        } else if ("HEIGHT".equals(p)) { //$NON-NLS-1$
-            updateCells();
-        }
+        // We do not have to register a listener for the index property.
+        // Calling updateCells is handled by GridRow if the index is updated.
+        registerChangeListener(getSkinnable().widthProperty(), e -> updateCells());
+        registerChangeListener(getSkinnable().heightProperty(), e -> updateCells());
     }
 
     /**
@@ -83,7 +67,9 @@ public class GridRowSkin<T> extends CellSkinBase<GridRow<T>, BehaviorBase<GridRo
         int rowIndex = getSkinnable().getIndex();
         if (rowIndex >= 0) {
             GridView<T> gridView = getSkinnable().getGridView();
-            int maxCellsInRow = ((GridViewSkin<?>) gridView.getSkin()).computeMaxCellsInRow();
+            GridViewSkin<?> gridViewSkin = (GridViewSkin<?>) gridView.getSkin();
+            if (gridViewSkin == null) return;
+            int maxCellsInRow = gridViewSkin.computeMaxCellsInRow();
             int totalCellsInGrid = gridView.getItems().size();
             int startCellIndex = rowIndex * maxCellsInRow;
             int endCellIndex = startCellIndex + maxCellsInRow - 1;

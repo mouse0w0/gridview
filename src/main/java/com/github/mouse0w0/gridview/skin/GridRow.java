@@ -27,15 +27,12 @@
 package com.github.mouse0w0.gridview.skin;
 
 import com.github.mouse0w0.gridview.GridView;
-import com.github.mouse0w0.gridview.cell.GridCell;
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.IndexedCell;
 import javafx.scene.control.Skin;
 
 /**
- * A GridRow is a container for {@link GridCell}, and represents a single
+ * A GridRow is a container for {@link org.controlsfx.control.GridCell}, and represents a single
  * row inside a {@link GridView}.
  */
 class GridRow<T> extends IndexedCell<T> {
@@ -53,16 +50,6 @@ class GridRow<T> extends IndexedCell<T> {
     public GridRow() {
         super();
         getStyleClass().add("grid-row"); //$NON-NLS-1$
-
-        // we need to do this (or something similar) to allow for mouse wheel
-        // scrolling, as the GridRow has to report that it is non-empty (which
-        // is the second argument going into updateItem).
-        indexProperty().addListener(new InvalidationListener() {
-            @Override
-            public void invalidated(Observable observable) {
-                updateItem(null, getIndex() == -1);
-            }
-        });
     }
 
     /**
@@ -102,5 +89,23 @@ class GridRow<T> extends IndexedCell<T> {
      */
     public GridView<T> getGridView() {
         return gridView.get();
+    }
+
+
+    @Override
+    public void updateIndex(int i) {
+        super.updateIndex(i);
+        // Fixes #879 (https://bitbucket.org/controlsfx/controlsfx/issues/879)
+        // When VirtualFlow.setCellIndex is called GridRow should update its cells
+        // even when the index did not change.
+        GridRowSkin<?> skin = (GridRowSkin<?>) getSkin();
+        if (skin != null) {
+            skin.updateCells();
+        }
+
+        // We need to do this to allow for mouse wheel scrolling,
+        // as the GridRow has to report that it is non-empty (which
+        // is the second argument going into updateItem).
+        updateItem(null, getIndex() == -1);
     }
 }
