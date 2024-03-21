@@ -1,16 +1,15 @@
 plugins {
     id 'java'
     id 'maven-publish'
-    id 'org.openjfx.javafxplugin' version '0.0.13'
+    id 'org.openjfx.javafxplugin' version '0.1.0'
 }
 
 group = 'com.github.mouse0w0'
-version = '11.0.0'
-sourceCompatibility = targetCompatibility = JavaVersion.VERSION_11
+version = '17.0.0'
+sourceCompatibility = targetCompatibility = JavaVersion.VERSION_17
 
 repositories {
     mavenCentral()
-    mavenLocal()
 }
 
 dependencies {
@@ -19,7 +18,7 @@ dependencies {
 }
 
 javafx {
-    version = '13'
+    version = '17'
     modules = ['javafx.controls']
 }
 
