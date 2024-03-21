@@ -2,9 +2,6 @@
     -fx-background-color: -fx-box-border, -fx-control-inner-background;
     -fx-background-insets: 0, 1;
     -fx-padding: 1;
-
-    -fx-cell-height: 64px;
-    -fx-cell-width: 64px;
 }
 
 .grid-view:focused {
