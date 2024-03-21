@@ -137,11 +137,11 @@ public class GridCell<T> extends IndexedCell<T> {
         return gridView.get();
     }
 
-    /**************************************************************************
-     *
-     * Modified by Mouse0w0 (https://github.com/Mouse0w0)
-     *
-     **************************************************************************/
+//    **************************************************************************
+//
+//    Modified by mouse0w0 (https://github.com/mouse0w0)
+//
+//    **************************************************************************
 
     private final InvalidationListener selectionModelListener = observable -> updateSelection();
     private final WeakInvalidationListener weakSelectionModelListener = new WeakInvalidationListener(selectionModelListener);

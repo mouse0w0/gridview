@@ -594,11 +594,11 @@ public class GridView<T> extends Control {
         return getClassCssMetaData();
     }
 
-    /**************************************************************************
-     *
-     * Modified by Mouse0w0 (https://github.com/Mouse0w0)
-     *
-     **************************************************************************/
+//    **************************************************************************
+//
+//    Modified by mouse0w0 (https://github.com/mouse0w0)
+//
+//    **************************************************************************
 
     @Override
     public String getUserAgentStylesheet() {
