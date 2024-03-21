@@ -6,7 +6,7 @@ import javafx.beans.Observable;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class GridViewTest extends Application {
+public class GridViewExampleApp extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         GridView<String> gridView = new GridView<>();
